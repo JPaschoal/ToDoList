@@ -21,4 +21,5 @@ public class ToDoItem
     public DateTime CreatedAt { get; set; }
     public DateTime? CompletedAt { get; set; }
     public virtual Guid ListId { get; set; }
+    public virtual ListToDo List { get; set; }
 }
