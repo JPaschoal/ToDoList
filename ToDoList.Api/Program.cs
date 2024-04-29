@@ -1,10 +1,10 @@
-using Microsoft.EntityFrameworkCore;
-using ToDoList.Data;
+using ToDoList.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ToDoContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+ConfigurationManager configuration = builder.Configuration;
+
+DependecyContainer.RegisterServices(builder.Services, configuration["ConnectionStrings:DefaultConnection"]);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
