@@ -17,8 +17,6 @@ public class ToDoListProfile : Profile
                 opt => opt.MapFrom(x => x.Id))
             .ForMember(dest => dest.Title,
                 opt => opt.MapFrom(x => x.Title))
-            .ForMember(dest => dest.Status,
-                opt => opt.MapFrom(x => x.Status))
             .ForMember(dest => dest.CreatedAt,
                 opt => opt.MapFrom(x => x.CreatedAt))
             .ForMember(dest => dest.UpdatedAt,

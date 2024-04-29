@@ -1,9 +1,12 @@
-using ToDoList.Domain.Models;
+using ToDoList.Domain.Dtos.Request;
+using ToDoList.Domain.Dtos.Response;
 
 namespace ToDoList.Domain.Interfaces.Services;
 
 public interface IToDoService
 {
-    Task<IEnumerable<ListToDo>> GetAllLists();
-    Task CreateList(ListToDo listToDo);
+    Task<IEnumerable<ToDoListResponse>> GetAllLists();
+    Task<ToDoListResponse> CreateList(CreateToDoListRequest listToDo);
+    
+    Task<ToDoListResponse> GetById(Guid id);
 }
