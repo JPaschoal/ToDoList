@@ -6,11 +6,11 @@ namespace ToDoList.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ToDoController : ControllerBase
+public class ToDoListController : ControllerBase
 {
     private readonly IToDoService _toDoService;
     
-    public ToDoController(IToDoService toDoService)
+    public ToDoListController(IToDoService toDoService)
     {
         _toDoService = toDoService;
     }
@@ -37,5 +37,18 @@ public class ToDoController : ControllerBase
          
         var response = await _toDoService.CreateList(list);
         return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
+    }
+    
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateList(Guid id, [FromBody] UpdateToDoListRequest list)
+    {
+        if(!ModelState.IsValid)
+            return BadRequest(ModelState);
+        
+        var response = await _toDoService.UpdateList(id, list);
+        if(response == null)
+            return NotFound();
+        
+        return Ok("Updated successfully!");
     }
 }

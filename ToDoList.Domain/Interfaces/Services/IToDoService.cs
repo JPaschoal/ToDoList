@@ -9,4 +9,6 @@ public interface IToDoService
     Task<ToDoListResponse> CreateList(CreateToDoListRequest listToDo);
     
     Task<ToDoListResponse> GetById(Guid id);
+    
+    Task<ToDoListResponse?> UpdateList(Guid id, UpdateToDoListRequest listToDo);
 }

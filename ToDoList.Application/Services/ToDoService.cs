@@ -39,4 +39,15 @@ public class ToDoService : IToDoService
         var list = await _listToDoRepository.GetById(id);
         return _mapper.Map<ToDoListResponse>(list);
     }
+
+    public async Task<ToDoListResponse?> UpdateList(Guid id, UpdateToDoListRequest listToDo)
+    {
+        var list = _mapper.Map<ListToDo>(listToDo);
+        if (list == null)
+            return null;
+            
+        await _listToDoRepository.Update(list);
+        await _unitOfWork.CompleteAsync();
+        return _mapper.Map<ToDoListResponse>(list);
+    }
 }

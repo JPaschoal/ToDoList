@@ -1,4 +1,4 @@
-using ToDoList.Data.Mapping;
+using ToDoList.Application.Mapping;
 using ToDoList.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
