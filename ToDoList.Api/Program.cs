@@ -1,3 +1,4 @@
+using ToDoList.Data.Mapping;
 using ToDoList.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
 DependecyContainer.RegisterServices(builder.Services, configuration["ConnectionStrings:DefaultConnection"]);
+
+builder.Services.AddAutoMapper(typeof(ToDoListProfile));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
