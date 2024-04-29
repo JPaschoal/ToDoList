@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using ToDoList.Domain.Dtos.Request;
 using ToDoList.Domain.Interfaces.Services;
-using ToDoList.Domain.Models;
 
 namespace ToDoList.Controllers;
 
@@ -15,6 +15,13 @@ public class ToDoController : ControllerBase
         _toDoService = toDoService;
     }
     
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+        var toDo = await _toDoService.GetById(id);
+        return Ok(toDo);
+    }
+    
     [HttpGet]
     public async Task<IActionResult> GetList()
     {
@@ -23,9 +30,12 @@ public class ToDoController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<IActionResult> CreateList([FromBody] ListToDo list)
+    public async Task<IActionResult> CreateList([FromBody] CreateToDoListRequest list)
     {
-        await _toDoService.CreateList(list);
-        return Ok("List created!");
+        if(!ModelState.IsValid)
+            return BadRequest(ModelState);
+         
+        var response = await _toDoService.CreateList(list);
+        return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
     }
 }
