@@ -18,5 +18,5 @@ public class ListToDo
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     public virtual ICollection<ToDoItem>? Items { get; set; }
-    public int Status { get; set; }
+    public int Status { get; set; } = 1;
 }

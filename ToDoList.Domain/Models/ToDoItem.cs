@@ -15,7 +15,7 @@ public class ToDoItem
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? CompletedAt { get; set; }
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-    public int Status { get; set; }
+    public int Status { get; set; } = 1;
     public virtual Guid ListId { get; set; }
     public virtual ListToDo? List { get; set; }
 }
