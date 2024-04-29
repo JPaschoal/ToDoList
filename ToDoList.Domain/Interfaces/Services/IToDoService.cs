@@ -4,6 +4,6 @@ namespace ToDoList.Domain.Interfaces.Services;
 
 public interface IToDoService
 {
-    Task<List<ListToDo>> GetAllLists();
+    Task<IEnumerable<ListToDo>> GetAllLists();
     Task CreateList(ListToDo listToDo);
 }

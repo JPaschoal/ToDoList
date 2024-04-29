@@ -7,22 +7,22 @@ namespace ToDoList.Application.Services;
 public class ToDoService : IToDoService
 {
     private readonly IListToDoRepository _listToDoRepository;
+    private readonly IUnitOfWork _unitOfWork;
     
-    public ToDoService(IListToDoRepository listToDoRepository)
+    public ToDoService(IListToDoRepository listToDoRepository, IUnitOfWork unitOfWork)
     {
         _listToDoRepository = listToDoRepository;
+        _unitOfWork = unitOfWork;
     }
     
-    
-    public Task<List<ListToDo>> GetAllLists()
+    public Task<IEnumerable<ListToDo>> GetAllLists()
     {
-        return _listToDoRepository.GetAllAsync();
+        return _listToDoRepository.All();
     }
 
-    public Task CreateList(ListToDo listToDo)
+    public async Task CreateList(ListToDo listToDo)
     {
-        listToDo.CreatedAt = listToDo.CreatedAt.ToUniversalTime();
-        _listToDoRepository.Create(listToDo);
-        return Task.CompletedTask;
+        await _unitOfWork.ListToDo.Add(listToDo);
+        await _unitOfWork.CompleteAsync();
     }
 }

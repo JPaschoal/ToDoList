@@ -2,8 +2,7 @@ using ToDoList.Domain.Models;
 
 namespace ToDoList.Domain.Interfaces.Repository;
 
-public interface IToDoItemRepository
+public interface IToDoItemRepository : IGenericRepository<ToDoItem>
 {
-    void AddAsync(ToDoItem toDoItem);
-    Task<List<ToDoItem>> GetAllAsync();
+    Task<IEnumerable<ToDoItem>> GetByListId(Guid listId);
 }
