@@ -88,4 +88,34 @@ public class ToDoListController : ControllerBase
         
         return CreatedAtAction(nameof(GetItems), new { id = response.Id }, response);
     }
+    
+    [HttpGet("items")]
+    public async Task<IActionResult> GetAllItems()
+    {
+        var items = await _toDoService.GetAllItems();
+        return Ok(items);
+    }
+    
+    [HttpPut("items/{id}")]
+    public async Task<IActionResult> UpdateItem(Guid id, [FromBody] UpdateItemRequest item)
+    {
+        if(!ModelState.IsValid)
+            return BadRequest(ModelState);
+        
+        var response = await _toDoService.UpdateItem(id, item);
+        if(response == null)
+            return NotFound();
+        
+        return Ok("Updated successfully!");
+    }
+    
+    [HttpDelete("items/{id}")]
+    public async Task<IActionResult> DeleteItem(Guid id)
+    {
+        var response = await _toDoService.DeleteItem(id);
+        if(response == null)
+            return NotFound();
+        
+        return NoContent();
+    }
 }

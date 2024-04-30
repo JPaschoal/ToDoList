@@ -10,6 +10,7 @@ public class ToDoItemProfile : Profile
     public ToDoItemProfile()
     {
         CreateMap<CreateItemRequest, ToDoItem>();
+        CreateMap<UpdateItemRequest, ToDoItem>();
         CreateMap<ToDoItem, ToDoItemResponse>();
     }
 }
