@@ -13,4 +13,7 @@ public interface IToDoService
     Task<ToDoListResponse?> UpdateList(Guid id, UpdateToDoListRequest listToDo);
     
     Task<ToDoListResponse?> Delete(Guid id);
+    
+    Task<ToDoItemResponse?> AddItem(CreateItemRequest task);
+    Task<ToDoItemResponse?> GetItems(Guid id);
 }

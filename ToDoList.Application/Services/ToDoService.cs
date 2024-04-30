@@ -10,14 +10,16 @@ namespace ToDoList.Application.Services;
 public class ToDoService : IToDoService
 {
     private readonly IListToDoRepository _listToDoRepository;
+    private readonly IToDoItemRepository _itemRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     
-    public ToDoService(IListToDoRepository listToDoRepository, IUnitOfWork unitOfWork, IMapper mapper)
+    public ToDoService(IListToDoRepository listToDoRepository, IUnitOfWork unitOfWork, IMapper mapper, IToDoItemRepository itemRepository)
     {
         _listToDoRepository = listToDoRepository;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _itemRepository = itemRepository;
     }
     
     public async Task<IEnumerable<ToDoListResponse>> GetAllLists()
@@ -68,5 +70,19 @@ public class ToDoService : IToDoService
         await _listToDoRepository.Update(list);
         await _unitOfWork.CompleteAsync();
         return _mapper.Map<ToDoListResponse>(list);
+    }
+
+    public async Task<ToDoItemResponse?> AddItem(CreateItemRequest task)
+    {
+        var item = _mapper.Map<ToDoItem>(task);
+        await _itemRepository.Add(item);
+        await _unitOfWork.CompleteAsync();
+        return _mapper.Map<ToDoItemResponse>(item);
+    }
+
+    public async Task<ToDoItemResponse?> GetItems(Guid id)
+    {
+        var list = await _itemRepository.GetById(id);
+        return _mapper.Map<ToDoItemResponse>(list);
     }
 }
