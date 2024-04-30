@@ -7,71 +7,21 @@ using ToDoList.Domain.Models;
 
 namespace ToDoList.Application.Services;
 
-public class ToDoService : IToDoService
+public class ToDoItemService : IToDoItemService
 {
-    private readonly IListToDoRepository _listToDoRepository;
-    private readonly IToDoItemRepository _itemRepository;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IToDoItemService _toDoItemService;
     private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IToDoItemRepository _itemRepository;
     
-    public ToDoService(IListToDoRepository listToDoRepository, IUnitOfWork unitOfWork, IMapper mapper, IToDoItemRepository itemRepository)
+    public ToDoItemService(IToDoItemService toDoItemService, IMapper mapper, IUnitOfWork unitOfWork, IToDoItemRepository itemRepository)
     {
-        _listToDoRepository = listToDoRepository;
-        _unitOfWork = unitOfWork;
+        _toDoItemService = toDoItemService;
         _mapper = mapper;
+        _unitOfWork = unitOfWork;
         _itemRepository = itemRepository;
     }
     
-    public async Task<IEnumerable<ToDoListResponse>> GetAllLists()
-    {
-        var lists = await _listToDoRepository.All();
-        return _mapper.Map<IEnumerable<ToDoListResponse>>(lists);
-    }
-
-    public async Task<ToDoListResponse> CreateList(CreateToDoListRequest listToDo)
-    {
-        var list = _mapper.Map<ListToDo>(listToDo);
-        await _listToDoRepository.Add(list);
-        await _unitOfWork.CompleteAsync();
-        return _mapper.Map<ToDoListResponse>(list);
-    }
-
-    public async Task<ToDoListResponse> GetById(Guid id)
-    {
-        var list = await _listToDoRepository.GetById(id);
-        return _mapper.Map<ToDoListResponse>(list);
-    }
-
-    public async Task<ToDoListResponse?> UpdateList(Guid id, UpdateToDoListRequest listToDo)
-    {
-        var selectedList = await _listToDoRepository.GetById(id);
-        if (selectedList == null)
-            return null;
-        
-        var list = _mapper.Map<ListToDo>(selectedList);
-        
-        list.Title = listToDo.Title!;
-        list.UpdatedAt = DateTime.UtcNow;
-            
-        await _listToDoRepository.Update(list);
-        await _unitOfWork.CompleteAsync();
-        return _mapper.Map<ToDoListResponse>(list);
-    }
-
-    public async Task<ToDoListResponse?> Delete(Guid id)
-    {
-        var selectedList = await _listToDoRepository.GetById(id);
-        if (selectedList == null)
-            return null;
-        
-        var list = _mapper.Map<ListToDo>(selectedList);
-        list.Status = 0;
-        
-        await _listToDoRepository.Update(list);
-        await _unitOfWork.CompleteAsync();
-        return _mapper.Map<ToDoListResponse>(list);
-    }
-
     public async Task<ToDoItemResponse?> AddItem(CreateItemRequest task)
     {
         var item = _mapper.Map<ToDoItem>(task);
@@ -80,7 +30,7 @@ public class ToDoService : IToDoService
         return _mapper.Map<ToDoItemResponse>(item);
     }
 
-    public async Task<ToDoItemResponse?> GetItems(Guid id)
+    public async Task<ToDoItemResponse?> GetItemById(Guid id)
     {
         var list = await _itemRepository.GetById(id);
         return _mapper.Map<ToDoItemResponse>(list);

@@ -21,6 +21,6 @@ public class DependecyContainer
         services.AddScoped<IListToDoRepository, ListToDoRepository>();
         services.AddScoped<IToDoItemRepository, ToDoItemRepository>();
         // Services
-        services.AddScoped<IToDoService, ToDoService>();
+        services.AddScoped<IToDoListService, ToDoListService>();
     }
 }

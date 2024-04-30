@@ -8,32 +8,25 @@ namespace ToDoList.Controllers;
 [Route("api/[controller]")]
 public class ToDoListController : ControllerBase
 {
-    private readonly IToDoService _toDoService;
+    private readonly IToDoListService _toDoListService;
     
-    public ToDoListController(IToDoService toDoService)
+    public ToDoListController(IToDoListService toDoListService)
     {
-        _toDoService = toDoService;
+        _toDoListService = toDoListService;
     }
     
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(Guid id)
     {
-        var toDo = await _toDoService.GetById(id);
+        var toDo = await _toDoListService.GetById(id);
         return Ok(toDo);
     }
     
     [HttpGet]
     public async Task<IActionResult> GetList()
     {
-        var toDos = await _toDoService.GetAllLists();
+        var toDos = await _toDoListService.GetAllLists();
         return Ok(toDos);
-    }
-    
-    [HttpGet("{id}/items")]
-    public async Task<IActionResult> GetItemsByListId(Guid id)
-    {
-        var items = await _toDoService.GetAllItemsByListId(id);
-        return Ok(items);
     }
     
     [HttpPost]
@@ -42,7 +35,7 @@ public class ToDoListController : ControllerBase
         if(!ModelState.IsValid)
             return BadRequest(ModelState);
          
-        var response = await _toDoService.CreateList(list);
+        var response = await _toDoListService.CreateList(list);
         return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
     }
     
@@ -52,7 +45,7 @@ public class ToDoListController : ControllerBase
         if(!ModelState.IsValid)
             return BadRequest(ModelState);
         
-        var response = await _toDoService.UpdateList(id, list);
+        var response = await _toDoListService.UpdateList(id, list);
         if(response == null)
             return NotFound();
         
@@ -62,57 +55,7 @@ public class ToDoListController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var response = await _toDoService.Delete(id);
-        if(response == null)
-            return NotFound();
-        
-        return NoContent();
-    }
-    
-    [HttpGet("items/{id}")]
-    public async Task<IActionResult> GetItems(Guid id)
-    {
-        var items = await _toDoService.GetItems(id);
-        return Ok(items);
-    }
-    
-    [HttpPost("items")]
-    public async Task<IActionResult> AddItem([FromBody] CreateItemRequest item)
-    {
-        if(!ModelState.IsValid)
-            return BadRequest(ModelState);
-        
-        var response = await _toDoService.AddItem(item);
-        if(response == null)
-            return NotFound();
-        
-        return CreatedAtAction(nameof(GetItems), new { id = response.Id }, response);
-    }
-    
-    [HttpGet("items")]
-    public async Task<IActionResult> GetAllItems()
-    {
-        var items = await _toDoService.GetAllItems();
-        return Ok(items);
-    }
-    
-    [HttpPut("items/{id}")]
-    public async Task<IActionResult> UpdateItem(Guid id, [FromBody] UpdateItemRequest item)
-    {
-        if(!ModelState.IsValid)
-            return BadRequest(ModelState);
-        
-        var response = await _toDoService.UpdateItem(id, item);
-        if(response == null)
-            return NotFound();
-        
-        return Ok("Updated successfully!");
-    }
-    
-    [HttpDelete("items/{id}")]
-    public async Task<IActionResult> DeleteItem(Guid id)
-    {
-        var response = await _toDoService.DeleteItem(id);
+        var response = await _toDoListService.Delete(id);
         if(response == null)
             return NotFound();
         
