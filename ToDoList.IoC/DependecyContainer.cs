@@ -15,12 +15,13 @@ public class DependecyContainer
         // Registering services
         // Context
         services.AddDbContext<ToDoContext>(options =>
-            options.UseNpgsql(connectionString));
+            options.UseLazyLoadingProxies().UseNpgsql(connectionString));
         // Repositories
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IListToDoRepository, ListToDoRepository>();
         services.AddScoped<IToDoItemRepository, ToDoItemRepository>();
         // Services
         services.AddScoped<IToDoListService, ToDoListService>();
+        services.AddScoped<IToDoItemService, ToDoItemService>();
     }
 }

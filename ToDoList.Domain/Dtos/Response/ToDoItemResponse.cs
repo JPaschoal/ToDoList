@@ -7,6 +7,4 @@ public class ToDoItemResponse
     public bool Done { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
-    public Guid ListId { get; set; }
-    public ToDoListResponse? List { get; set; }
 }

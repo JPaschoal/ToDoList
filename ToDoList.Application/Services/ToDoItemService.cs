@@ -9,14 +9,12 @@ namespace ToDoList.Application.Services;
 
 public class ToDoItemService : IToDoItemService
 {
-    private readonly IToDoItemService _toDoItemService;
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IToDoItemRepository _itemRepository;
     
-    public ToDoItemService(IToDoItemService toDoItemService, IMapper mapper, IUnitOfWork unitOfWork, IToDoItemRepository itemRepository)
+    public ToDoItemService(IMapper mapper, IUnitOfWork unitOfWork, IToDoItemRepository itemRepository)
     {
-        _toDoItemService = toDoItemService;
         _mapper = mapper;
         _unitOfWork = unitOfWork;
         _itemRepository = itemRepository;

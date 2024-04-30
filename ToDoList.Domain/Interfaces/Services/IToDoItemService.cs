@@ -5,7 +5,6 @@ namespace ToDoList.Domain.Interfaces.Services;
 
 public interface IToDoItemService
 {
-    // ToDo items operations
     Task<ToDoItemResponse?> AddItem(CreateItemRequest item);
     Task<ToDoItemResponse?> GetItemById(Guid id);
     Task<IEnumerable<ToDoItemResponse>> GetAllItemsByListId(Guid listId);
