@@ -55,4 +55,18 @@ public class ToDoService : IToDoService
         await _unitOfWork.CompleteAsync();
         return _mapper.Map<ToDoListResponse>(list);
     }
+
+    public async Task<ToDoListResponse?> Delete(Guid id)
+    {
+        var selectedList = await _listToDoRepository.GetById(id);
+        if (selectedList == null)
+            return null;
+        
+        var list = _mapper.Map<ListToDo>(selectedList);
+        list.Status = 0;
+        
+        await _listToDoRepository.Update(list);
+        await _unitOfWork.CompleteAsync();
+        return _mapper.Map<ToDoListResponse>(list);
+    }
 }

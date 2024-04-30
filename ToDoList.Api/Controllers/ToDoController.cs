@@ -51,4 +51,14 @@ public class ToDoListController : ControllerBase
         
         return Ok("Updated successfully!");
     }
+    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var response = await _toDoService.Delete(id);
+        if(response == null)
+            return NotFound();
+        
+        return NoContent();
+    }
 }

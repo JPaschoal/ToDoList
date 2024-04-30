@@ -11,4 +11,6 @@ public interface IToDoService
     Task<ToDoListResponse> GetById(Guid id);
     
     Task<ToDoListResponse?> UpdateList(Guid id, UpdateToDoListRequest listToDo);
+    
+    Task<ToDoListResponse?> Delete(Guid id);
 }
