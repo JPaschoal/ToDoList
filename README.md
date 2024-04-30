@@ -16,5 +16,10 @@ The solution is divided into several layers, each with a specific responsibility
 - IoC: This layer is responsible for dependency injection. It contains the DependecyContainer class which registers the services and repositories.  
 - Api: This layer is the entry point of the application. It contains the controllers which handle HTTP requests and responses.  
 
+## Future Improvements
+The next steps for this project include:
+- Implementing Identity for authentication and authorization. This will allow us to secure the application and ensure that only authorized users can perform certain actions.
+- Scheduled Jobs for reminding to-do items close to the due date.
+
 ## Author
 - Jhonatan Paschoal
