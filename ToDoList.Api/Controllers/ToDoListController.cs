@@ -29,6 +29,13 @@ public class ToDoListController : ControllerBase
         return Ok(toDos);
     }
     
+    [HttpGet("{id}/items")]
+    public async Task<IActionResult> GetItemsByListId(Guid id)
+    {
+        var items = await _toDoService.GetAllItemsByListId(id);
+        return Ok(items);
+    }
+    
     [HttpPost]
     public async Task<IActionResult> CreateList([FromBody] CreateToDoListRequest list)
     {
@@ -60,5 +67,25 @@ public class ToDoListController : ControllerBase
             return NotFound();
         
         return NoContent();
+    }
+    
+    [HttpGet("items/{id}")]
+    public async Task<IActionResult> GetItems(Guid id)
+    {
+        var items = await _toDoService.GetItems(id);
+        return Ok(items);
+    }
+    
+    [HttpPost("items")]
+    public async Task<IActionResult> AddItem([FromBody] CreateItemRequest item)
+    {
+        if(!ModelState.IsValid)
+            return BadRequest(ModelState);
+        
+        var response = await _toDoService.AddItem(item);
+        if(response == null)
+            return NotFound();
+        
+        return CreatedAtAction(nameof(GetItems), new { id = response.Id }, response);
     }
 }

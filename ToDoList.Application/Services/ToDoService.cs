@@ -85,4 +85,10 @@ public class ToDoService : IToDoService
         var list = await _itemRepository.GetById(id);
         return _mapper.Map<ToDoItemResponse>(list);
     }
+    
+    public async Task<IEnumerable<ToDoItemResponse>> GetAllItemsByListId(Guid listId)
+    {
+        var items = await _itemRepository.GetByListId(listId);
+        return _mapper.Map<IEnumerable<ToDoItemResponse>>(items);
+    }
 }

@@ -16,4 +16,5 @@ public interface IToDoService
     
     Task<ToDoItemResponse?> AddItem(CreateItemRequest task);
     Task<ToDoItemResponse?> GetItems(Guid id);
+    Task<IEnumerable<ToDoItemResponse>> GetAllItemsByListId(Guid listId);
 }
