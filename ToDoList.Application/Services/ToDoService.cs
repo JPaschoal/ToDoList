@@ -42,9 +42,14 @@ public class ToDoService : IToDoService
 
     public async Task<ToDoListResponse?> UpdateList(Guid id, UpdateToDoListRequest listToDo)
     {
-        var list = _mapper.Map<ListToDo>(listToDo);
-        if (list == null)
+        var selectedList = await _listToDoRepository.GetById(id);
+        if (selectedList == null)
             return null;
+        
+        var list = _mapper.Map<ListToDo>(selectedList);
+        
+        list.Title = listToDo.Title!;
+        list.UpdatedAt = DateTime.UtcNow;
             
         await _listToDoRepository.Update(list);
         await _unitOfWork.CompleteAsync();
